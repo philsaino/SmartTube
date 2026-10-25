@@ -34,6 +34,7 @@ import com.liskovsoft.smartyoutubetv2.common.app.views.BrowseView;
 import com.liskovsoft.smartyoutubetv2.common.misc.CrashRestorer;
 import com.liskovsoft.smartyoutubetv2.common.utils.Utils;
 import com.liskovsoft.smartyoutubetv2.tv.R;
+import com.liskovsoft.smartyoutubetv2.tv.util.ViewUtil;
 import com.liskovsoft.smartyoutubetv2.tv.presenter.IconHeaderItemPresenter;
 import com.liskovsoft.smartyoutubetv2.tv.ui.browse.dialog.ErrorDialogFragment;
 import com.liskovsoft.smartyoutubetv2.tv.ui.mod.leanback.headers.ExtendedHeadersSupportFragment;
@@ -197,7 +198,9 @@ public class BrowseFragment extends BrowseSupportFragment implements BrowseView 
         //setTitle(getString(R.string.browse_title));
 
         // Set fastLane (or headers) background color
-        setBrandColor(ContextCompat.getColor(getContext(), brandColorRes));
+        if (!ViewUtil.isGlassStyle(getContext())) {
+            setBrandColor(ContextCompat.getColor(getContext(), brandColorRes));
+        }
 
         // Set search icon color.
         setSearchAffordanceColor(ContextCompat.getColor(getContext(), brandAccentColorRes));

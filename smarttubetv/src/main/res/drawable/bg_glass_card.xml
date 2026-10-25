@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Liquid Glass: translucent card slab. The rim is drawn by the foreground drawable. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="@dimen/glass_card_corner_radius" />
+    <gradient
+        android:angle="270"
+        android:endColor="@color/glass_card_fill_bottom"
+        android:startColor="@color/glass_card_fill_top"
+        android:type="linear" />
+</shape>

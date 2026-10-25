@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Liquid Glass: dock slab behind the player controls bar -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Translucent graphite body with rounded top/bottom corners -->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="20dp" />
+            <gradient
+                android:angle="270"
+                android:endColor="#D9060608"
+                android:startColor="#E6101014"
+                android:type="linear" />
+        </shape>
+    </item>
+
+    <!-- Specular highlight across top curve -->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="20dp" />
+            <gradient
+                android:angle="270"
+                android:centerColor="#00FFFFFF"
+                android:centerY="0.25"
+                android:endColor="#00FFFFFF"
+                android:startColor="#33FFFFFF"
+                android:type="linear" />
+        </shape>
+    </item>
+
+    <!-- Glass perimeter hairline rim -->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="20dp" />
+            <stroke
+                android:width="1.2dp"
+                android:color="#3DFFFFFF" />
+        </shape>
+    </item>
+
+</layer-list>

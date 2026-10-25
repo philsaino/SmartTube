@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Liquid Glass: resting glass slab (fill + hairline rim) used by compact cards. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/bg_glass_card" />
+
+    <item android:drawable="@drawable/glass_card_rim_idle" />
+
+</layer-list>

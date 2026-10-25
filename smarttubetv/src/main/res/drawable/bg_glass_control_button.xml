@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Liquid Glass: circular button selector with glowing glass focus -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true" android:drawable="@drawable/bg_glass_control_focus" />
+    <item android:drawable="@android:color/transparent" />
+</selector>

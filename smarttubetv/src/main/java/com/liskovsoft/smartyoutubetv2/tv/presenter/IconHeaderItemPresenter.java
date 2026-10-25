@@ -30,6 +30,7 @@ public class IconHeaderItemPresenter extends RowHeaderPresenter {
     private final int mResId;
     private final String mIconUrl;
     private Drawable mDefaultIcon;
+    private boolean mIsGlassStyle;
 
     public IconHeaderItemPresenter(int resId, String iconUrl) {
         mResId = resId;
@@ -38,14 +39,26 @@ public class IconHeaderItemPresenter extends RowHeaderPresenter {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup) {
+        Context context = viewGroup.getContext();
+        mIsGlassStyle = ViewUtil.isGlassStyle(context);
         mUnselectedAlpha = viewGroup.getResources()
                 .getFraction(R.fraction.lb_browse_header_unselect_alpha, 1, 1);
-        LayoutInflater inflater = (LayoutInflater) viewGroup.getContext()
+        LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mDefaultIcon = new ColorDrawable(ContextCompat.getColor(viewGroup.getContext(), R.color.lb_grey));
+        mDefaultIcon = new ColorDrawable(ContextCompat.getColor(context, R.color.lb_grey));
 
         View view = inflater.inflate(R.layout.icon_header_item, null);
-        view.setAlpha(mUnselectedAlpha); // Initialize icons to be at half-opacity.
+
+        if (mIsGlassStyle) {
+            // Pill background: translucent glass idle, glowing rim when focused
+            view.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_glass_sidebar_pill));
+            int padH = (int) (14 * context.getResources().getDisplayMetrics().density);
+            int padV = (int) (8 * context.getResources().getDisplayMetrics().density);
+            view.setPadding(padH, padV, padH, padV);
+            view.setAlpha(1.0f);
+        } else {
+            view.setAlpha(mUnselectedAlpha); // Initialize icons to be at half-opacity.
+        }
 
         return new ViewHolder(view);
     }
@@ -94,6 +107,19 @@ public class IconHeaderItemPresenter extends RowHeaderPresenter {
     // mUnselectAlpha, and also assumes the xml inflation will return a RowHeaderView.
     @Override
     protected void onSelectLevelChanged(RowHeaderPresenter.ViewHolder holder) {
+        if (mIsGlassStyle) {
+            // Keep full alpha so the pill background and rim remain crisp;
+            // dim unselected labels/icons slightly.
+            float level = holder.getSelectLevel();
+            holder.view.setAlpha(1.0f);
+            View icon = holder.view.findViewById(R.id.header_icon);
+            View label = holder.view.findViewById(R.id.header_label);
+            float contentAlpha = 0.65f + level * 0.35f;
+            if (icon != null) icon.setAlpha(contentAlpha);
+            if (label != null) label.setAlpha(contentAlpha);
+            return;
+        }
+
         holder.view.setAlpha(mUnselectedAlpha + holder.getSelectLevel() *
                 (1.0f - mUnselectedAlpha));
     }

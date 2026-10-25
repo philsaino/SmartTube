@@ -9,6 +9,13 @@ import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowHeaderPresenter;
 import com.liskovsoft.sharedutils.helpers.Helpers;
 import com.liskovsoft.sharedutils.helpers.KeyHelpers;
+import com.liskovsoft.smartyoutubetv2.tv.R;
+import com.liskovsoft.smartyoutubetv2.tv.util.ViewUtil;
+import android.os.Bundle;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.leanback.widget.VerticalGridView;
 
 public class ExtendedHeadersSupportFragment extends HeadersSupportFragment {
     public interface OnHeaderLongPressedListener {
@@ -29,6 +36,28 @@ public class ExtendedHeadersSupportFragment extends HeadersSupportFragment {
 
     public void setOnHeaderLongPressedListener(OnHeaderLongPressedListener listener) {
         mOnHeaderLongPressedListener = listener;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if (getContext() != null && ViewUtil.isGlassStyle(getContext())) {
+            // Replace the opaque fastlane background with the glass sidebar dock
+            VerticalGridView listView = getVerticalGridView();
+            if (listView != null) {
+                listView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_glass_sidebar_dock));
+                // Add right margin so items don't touch the dock rim
+                int pad = (int) (10 * getResources().getDisplayMetrics().density);
+                listView.setPadding(pad, listView.getPaddingTop(), pad, listView.getPaddingBottom());
+            }
+
+            // Remove the hardcoded fading edge on the right
+            View fade = view.findViewById(R.id.fade_out_edge);
+            if (fade != null) {
+                fade.setVisibility(View.GONE);
+            }
+        }
     }
 
     private final ItemBridgeAdapter.AdapterListener mCustomAdapterListener =

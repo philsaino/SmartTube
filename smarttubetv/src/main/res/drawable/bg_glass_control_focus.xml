@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Liquid Glass: circular button focus state (glowing rim + specular sheen) -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Translucent glass disk fill -->
+    <item>
+        <shape android:shape="oval">
+            <gradient
+                android:angle="270"
+                android:endColor="#1FFFFFFF"
+                android:startColor="#33FFFFFF"
+                android:type="linear" />
+        </shape>
+    </item>
+
+    <!-- Specular highlight on top half of circle -->
+    <item>
+        <shape android:shape="oval">
+            <gradient
+                android:angle="270"
+                android:centerColor="#00FFFFFF"
+                android:centerY="0.5"
+                android:endColor="#00FFFFFF"
+                android:startColor="#4DFFFFFF"
+                android:type="linear" />
+        </shape>
+    </item>
+
+    <!-- Outer rim -->
+    <item>
+        <shape android:shape="oval">
+            <stroke
+                android:width="1.5dp"
+                android:color="#E6FFFFFF" />
+        </shape>
+    </item>
+
+    <!-- Inner red accent ring -->
+    <item
+        android:bottom="2dp"
+        android:left="2dp"
+        android:right="2dp"
+        android:top="2dp">
+        <shape android:shape="oval">
+            <stroke
+                android:width="1dp"
+                android:color="#8CE50914" />
+        </shape>
+    </item>
+
+</layer-list>

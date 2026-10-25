@@ -21,10 +21,14 @@ public class SettingsCardPresenter extends Presenter {
     private int mDefaultTextColor;
     private int mSelectedBackgroundColor;
     private int mSelectedTextColor;
+    private boolean mIsGlassStyle;
+    private int mInset;
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
         Context context = parent.getContext();
+
+        mIsGlassStyle = ViewUtil.isGlassStyle(context);
 
         mDefaultBackgroundColor =
                 ContextCompat.getColor(context, Helpers.getThemeAttr(context, R.attr.cardDefaultBackground));
@@ -37,23 +41,45 @@ public class SettingsCardPresenter extends Presenter {
 
         @SuppressLint("InflateParams")
         View container = LayoutInflater.from(context).inflate(R.layout.settings_card, null);
-        container.setBackgroundColor(mDefaultBackgroundColor);
         //if (VERSION.SDK_INT >= 23 && MainUIData.instance(context).isUiTweakEnabled(MainUIData.UI_TWEAK_ROUNDED_CORNERS)) {
         //    container.setForeground(ContextCompat.getDrawable(context, R.drawable.lb_card_outline));
         //}
 
         TextView textView = container.findViewById(R.id.settings_title);
-        textView.setBackgroundColor(mDefaultBackgroundColor);
+
+        if (mIsGlassStyle) {
+            mInset = context.getResources().getDimensionPixelSize(R.dimen.glass_card_inset);
+
+            container.setPadding(mInset, mInset, mInset, mInset);
+            container.setBackgroundResource(R.drawable.bg_glass_card_idle);
+
+            // Keep the tile width unchanged despite the padding added by the glass frame
+            ViewGroup.LayoutParams params = textView.getLayoutParams();
+            params.width = context.getResources().getDimensionPixelSize(R.dimen.settings_card_width) - mInset * 2;
+            textView.setLayoutParams(params);
+
+            textView.setBackground(null);
+            mDefaultTextColor = ContextCompat.getColor(context, R.color.glass_text_primary);
+        } else {
+            container.setBackgroundColor(mDefaultBackgroundColor);
+            textView.setBackgroundColor(mDefaultBackgroundColor);
+        }
+
         textView.setTextColor(mDefaultTextColor);
 
         ViewUtil.setTextScrollSpeed(textView, getCardTextScrollSpeed(context));
 
         container.setOnFocusChangeListener((v, hasFocus) -> {
-            int backgroundColor = hasFocus ? mSelectedBackgroundColor : mDefaultBackgroundColor;
-            int textColor = hasFocus ? mSelectedTextColor : mDefaultTextColor;
-            
-            textView.setBackgroundColor(backgroundColor);
-            textView.setTextColor(textColor);
+            if (mIsGlassStyle) {
+                container.setBackgroundResource(hasFocus ?
+                        R.drawable.bg_glass_card_focus : R.drawable.bg_glass_card_idle);
+            } else {
+                int backgroundColor = hasFocus ? mSelectedBackgroundColor : mDefaultBackgroundColor;
+                int textColor = hasFocus ? mSelectedTextColor : mDefaultTextColor;
+
+                textView.setBackgroundColor(backgroundColor);
+                textView.setTextColor(textColor);
+            }
 
             if (hasFocus) {
                 ViewUtil.enableMarquee(textView);

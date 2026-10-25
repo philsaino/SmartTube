@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Liquid Glass: browse backdrop. Vertical graphite gradient + ambient accent glow. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="270"
+                android:centerColor="@color/glass_backdrop_mid"
+                android:endColor="@color/glass_backdrop_bottom"
+                android:startColor="@color/glass_backdrop_top"
+                android:type="linear" />
+        </shape>
+    </item>
+
+    <!-- Ambient light coming from the top of the screen -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:centerX="0.5"
+                android:centerY="0.06"
+                android:endColor="@color/glass_backdrop_glow_fade"
+                android:gradientRadius="@dimen/glass_backdrop_glow_radius"
+                android:startColor="@color/glass_backdrop_glow"
+                android:type="radial" />
+        </shape>
+    </item>
+
+</layer-list>

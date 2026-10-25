@@ -421,6 +421,12 @@ public class MainUIData extends DataChangeBase implements ProfileChangeListener 
                 "App.Theme.Leanback.Blue.OLED.Browse",
                 "App.Theme.Leanback.Blue.Preferences",
                 mContext));
+        mColorSchemes.add(new ColorScheme(
+                R.string.color_scheme_liquid_glass,
+                "App.Theme.Glass.Player",
+                "App.Theme.Glass.Browse",
+                "App.Theme.Glass.Preferences",
+                mContext));
     }
 
     private void restoreState() {

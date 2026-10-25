@@ -43,6 +43,8 @@ public class VideoCardPresenter extends LongClickPresenter {
     private int mThumbQuality;
     private int mWidth;
     private int mHeight;
+    private int mInset;
+    private boolean mIsGlassStyle;
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
@@ -56,6 +58,8 @@ public class VideoCardPresenter extends LongClickPresenter {
                 ContextCompat.getColor(context, Helpers.getThemeAttr(context, R.attr.cardSelectedBackground));
         mSelectedTextColor =
                 ContextCompat.getColor(context, R.color.card_selected_text_grey);
+
+        mIsGlassStyle = ViewUtil.isGlassStyle(context);
 
         mCardPreviewType = getCardPreviewType(context);
         mThumbQuality = getThumbQuality(context);
@@ -84,7 +88,13 @@ public class VideoCardPresenter extends LongClickPresenter {
         cardView.enableBadge(isBadgeEnabled());
         cardView.enableTitle(isTitleEnabled());
         cardView.enableContent(isContentEnabled());
-        cardView.setBackgroundColor(mDefaultBackgroundColor); // background is temporarily visible during animations
+
+        if (mIsGlassStyle) {
+            applyGlassCardStyle(cardView);
+        } else {
+            cardView.setBackgroundColor(mDefaultBackgroundColor); // background is temporarily visible during animations
+        }
+
         //if (VERSION.SDK_INT >= 23 && MainUIData.instance(context).isUiTweakEnabled(MainUIData.UI_TWEAK_ROUNDED_CORNERS)) {
         //    cardView.setForeground(ContextCompat.getDrawable(context, R.drawable.lb_card_outline));
         //}
@@ -92,7 +102,27 @@ public class VideoCardPresenter extends LongClickPresenter {
         return new ViewHolder(cardView);
     }
 
+    private void applyGlassCardStyle(ComplexImageCardView cardView) {
+        Context context = cardView.getContext();
+
+        float imageRadius = context.getResources().getDimension(R.dimen.glass_card_image_corner_radius);
+
+        // The slab is inset so that the glass frame stays visible around the thumbnail
+        cardView.setPadding(mInset, mInset, mInset, mInset);
+        cardView.setBackgroundResource(R.drawable.bg_glass_card);
+
+        ViewUtil.applyRoundedClip(cardView.findViewById(R.id.main_image_wrapper), imageRadius);
+    }
+
     private void updateCardBackgroundColor(ComplexImageCardView view, boolean selected) {
+        if (mIsGlassStyle) {
+            // Background and text colors come from the theme (bg_glass_info + glass text appearances).
+            // Only the rim changes with the selection.
+            view.setForeground(ContextCompat.getDrawable(view.getContext(),
+                    selected ? R.drawable.glass_card_rim_focus : R.drawable.glass_card_rim_idle));
+            return;
+        }
+
         int backgroundColor = selected ? mSelectedBackgroundColor : mDefaultBackgroundColor;
         int textColor = selected ? mSelectedTextColor : mDefaultTextColor;
 
@@ -192,6 +222,16 @@ public class VideoCardPresenter extends LongClickPresenter {
 
         mWidth = dimens.first;
         mHeight = dimens.second;
+
+        if (mIsGlassStyle) {
+            // Keep the outer card size unchanged: the padding added by the glass frame is
+            // subtracted from the thumbnail, so the grid math still fits perfectly.
+            mInset = context.getResources().getDimensionPixelSize(R.dimen.glass_card_inset);
+            mWidth -= mInset * 2;
+            mHeight -= mInset * 2;
+        } else {
+            mInset = 0;
+        }
     }
     
     protected Pair<Integer, Integer> getCardDimensPx(Context context) {

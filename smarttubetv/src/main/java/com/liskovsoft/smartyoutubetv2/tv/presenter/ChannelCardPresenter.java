@@ -35,10 +35,14 @@ public class ChannelCardPresenter extends LongClickPresenter {
     private int mSelectedTextColor;
     private int mWidth;
     private int mHeight;
+    private boolean mIsGlassStyle;
+    private int mInset;
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
         Context context = parent.getContext();
+
+        mIsGlassStyle = ViewUtil.isGlassStyle(context);
 
         mDefaultBackgroundColor =
                 ContextCompat.getColor(context, Helpers.getThemeAttr(context, R.attr.cardDefaultBackground));
@@ -55,13 +59,28 @@ public class ChannelCardPresenter extends LongClickPresenter {
 
         @SuppressLint("InflateParams")
         View container = LayoutInflater.from(context).inflate(R.layout.channel_card, null);
-        container.setBackgroundColor(mDefaultBackgroundColor);
         //if (VERSION.SDK_INT >= 23 && MainUIData.instance(context).isUiTweakEnabled(MainUIData.UI_TWEAK_ROUNDED_CORNERS)) {
         //    container.setForeground(ContextCompat.getDrawable(context, R.drawable.lb_card_outline));
         //}
 
         TextView textView = container.findViewById(R.id.channel_title);
-        textView.setBackgroundColor(mDefaultBackgroundColor);
+
+        if (mIsGlassStyle) {
+            mInset = context.getResources().getDimensionPixelSize(R.dimen.glass_card_inset);
+
+            // Keep the outer size unchanged: the glass frame is drawn inside the chip
+            View wrapper = container.findViewById(R.id.channel_card_wrapper);
+            wrapper.setPadding(mInset, mInset, mInset, mInset);
+            container.setBackgroundResource(R.drawable.bg_glass_card_idle);
+            ViewUtil.applyRoundedClip(container.findViewById(R.id.channel_image),
+                    context.getResources().getDimension(R.dimen.glass_card_image_corner_radius));
+            textView.setBackground(null);
+            mDefaultTextColor = ContextCompat.getColor(context, R.color.glass_text_primary);
+        } else {
+            container.setBackgroundColor(mDefaultBackgroundColor);
+            textView.setBackgroundColor(mDefaultBackgroundColor);
+        }
+
         textView.setTextColor(mDefaultTextColor);
 
         boolean autoScrollEnabled = isCardTextAutoScrollEnabled(context);
@@ -70,12 +89,18 @@ public class ChannelCardPresenter extends LongClickPresenter {
         }
 
         container.setOnFocusChangeListener((v, hasFocus) -> {
-            int backgroundColor = hasFocus ? mSelectedBackgroundColor :
-                    textView.getTag(R.id.channel_new_content) != null ? mNewContentBackgroundColor : mDefaultBackgroundColor;
-            int textColor = hasFocus ? mSelectedTextColor : mDefaultTextColor;
-            
-            textView.setBackgroundColor(backgroundColor);
-            textView.setTextColor(textColor);
+            if (mIsGlassStyle) {
+                // Only the rim changes with the selection; the fill comes from the theme.
+                updateGlassBackground(container, hasFocus,
+                        textView.getTag(R.id.channel_new_content) != null);
+            } else {
+                int backgroundColor = hasFocus ? mSelectedBackgroundColor :
+                        textView.getTag(R.id.channel_new_content) != null ? mNewContentBackgroundColor : mDefaultBackgroundColor;
+                int textColor = hasFocus ? mSelectedTextColor : mDefaultTextColor;
+
+                textView.setBackgroundColor(backgroundColor);
+                textView.setTextColor(textColor);
+            }
 
             if (!autoScrollEnabled) {
                 return;
@@ -104,9 +129,13 @@ public class ChannelCardPresenter extends LongClickPresenter {
         textView.setText(video.getTitle());
 
         // We should setup props each time because object may be reused by the underlying RecyclerView
-        textView.setBackgroundColor(video.hasNewContent ? mNewContentBackgroundColor : mDefaultBackgroundColor);
         textView.setTag(R.id.channel_new_content, video.hasNewContent ? true : null);
 
+        if (mIsGlassStyle) {
+            updateGlassBackground(viewHolder.view, viewHolder.view.hasFocus(), video.hasNewContent);
+        } else {
+            textView.setBackgroundColor(video.hasNewContent ? mNewContentBackgroundColor : mDefaultBackgroundColor);
+        }
 
         ImageView imageView = viewHolder.view.findViewById(R.id.channel_image);
         imageView.setVisibility(View.VISIBLE);
@@ -124,6 +153,11 @@ public class ChannelCardPresenter extends LongClickPresenter {
         // Remove references to images so that the garbage collector can free up memory.
         ImageView imageView = viewHolder.view.findViewById(R.id.channel_image);
         imageView.setImageDrawable(null);
+    }
+
+    private void updateGlassBackground(View container, boolean hasFocus, boolean hasNewContent) {
+        container.setBackgroundResource(hasFocus ? R.drawable.bg_glass_card_focus :
+                hasNewContent ? R.drawable.bg_glass_card_new : R.drawable.bg_glass_card_idle);
     }
 
     private void updateDimensions(Context context) {

@@ -323,6 +323,12 @@ public class AppDialogFragment extends LeanbackSettingsFragment implements AppDi
                 ViewUtil.enableTransparentDialog(getActivity(), getParentFragment().getView());
                 // Enable transparency on child fragment itself (isn't attached to parent yet)
                 ViewUtil.enableTransparentDialog(getActivity(), view);
+            } else if (view != null && ViewUtil.isGlassStyle(getActivity())) {
+                View parentView = getParentFragment() != null ? getParentFragment().getView() : null;
+                if (parentView != null) {
+                    ViewUtil.applyGlassDialogStyle(getActivity(), parentView);
+                }
+                ViewUtil.applyGlassDialogStyle(getActivity(), view);
             }
 
             return view;

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Liquid Glass: focused glass slab (fill + bright rim + specular sheen). -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/bg_glass_card" />
+
+    <item android:drawable="@drawable/glass_card_rim_focus" />
+
+</layer-list>
