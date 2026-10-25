@@ -1,0 +1,142 @@
+name: Sync Upstream & Release Stable
+
+on:
+  schedule:
+    - cron: '0 3 * * *' # Every night at 03:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  check-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: feature/liquid-glass
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add upstream https://github.com/yuliskov/SmartTube.git || true
+          git fetch upstream master --tags
+
+      - name: Check for New Upstream Release
+        id: check_upstream
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          LATEST_TAG=$(gh release list -R yuliskov/SmartTube --limit 10 | awk '$0 ~ /Stable/ {print $3; exit}')
+          echo "Latest upstream stable tag: $LATEST_TAG"
+          
+          # Check if this tag has already been released on this fork
+          if gh release view "$LATEST_TAG" >/dev/null 2>&1; then
+            echo "Release $LATEST_TAG already exists on fork. Skipping build."
+            echo "SHOULD_BUILD=false" >> $GITHUB_OUTPUT
+          else
+            echo "New upstream stable release detected ($LATEST_TAG)."
+            echo "SHOULD_BUILD=true" >> $GITHUB_OUTPUT
+            echo "TAG=$LATEST_TAG" >> $GITHUB_OUTPUT
+            CLEAN_VER=$(echo "$LATEST_TAG" | sed 's/s$//')
+            echo "VERSION=$CLEAN_VER" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Rebase onto Upstream Master
+        if: steps.check_upstream.outputs.SHOULD_BUILD == 'true'
+        run: |
+          git merge -X theirs upstream/master -m "chore(sync): merge upstream master for ${{ steps.check_upstream.outputs.TAG }}"
+          git push origin feature/liquid-glass
+
+      - name: Set up JDK 17
+        if: steps.check_upstream.outputs.SHOULD_BUILD == 'true'
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Configure Build Signing
+        if: steps.check_upstream.outputs.SHOULD_BUILD == 'true'
+        env:
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          echo "$SIGNING_KEY" | base64 -d > release.keystore
+          cat << EOF > keystore.properties
+          storeFile=../release.keystore
+          storePassword=$KEY_STORE_PASSWORD
+          keyAlias=$KEY_ALIAS
+          keyPassword=$KEY_PASSWORD
+          EOF
+
+      - name: Build Stable Release APKs
+        if: steps.check_upstream.outputs.SHOULD_BUILD == 'true'
+        run: |
+          ./gradlew :smarttubetv:assembleStstableRelease --no-daemon --console=plain
+
+      - name: Generate In-App Update JSON
+        if: steps.check_upstream.outputs.SHOULD_BUILD == 'true'
+        run: |
+          UPSTREAM_JSON_URL="https://github.com/yuliskov/SmartTubeNext/releases/download/latest/smarttube_stable2.json"
+          curl -sL "$UPSTREAM_JSON_URL" -o upstream_meta.json
+          
+          python3 - << 'PYEOF'
+          import json
+          with open("upstream_meta.json") as f:
+              data = json.load(f)
+          data["package"] = {
+              "downloadUrlList": [
+                  "https://github.com/philsaino/SmartTube/releases/download/latest/smarttube_stable_armeabi-v7a.apk"
+              ],
+              "downloadUrlList_arm64-v8a": [
+                  "https://github.com/philsaino/SmartTube/releases/download/latest/smarttube_stable_arm64-v8a.apk"
+              ],
+              "downloadUrlList_x86": [
+                  "https://github.com/philsaino/SmartTube/releases/download/latest/smarttube_stable_x86.apk"
+              ]
+          }
+          with open("smarttube_stable2.json", "w") as f:
+              json.dump(data, f, indent=4, ensure_ascii=False)
+          PYEOF
+
+      - name: Publish GitHub Release
+        if: steps.check_upstream.outputs.SHOULD_BUILD == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="${{ steps.check_upstream.outputs.TAG }}"
+          DIR="smarttubetv/build/outputs/apk/ststable/release"
+          
+          # Copy to generic names for direct update download
+          cp $DIR/SmartTube_stable_*_armeabi-v7a.apk smarttube_stable_armeabi-v7a.apk
+          cp $DIR/SmartTube_stable_*_arm64-v8a.apk smarttube_stable_arm64-v8a.apk
+          cp $DIR/SmartTube_stable_*_x86.apk smarttube_stable_x86.apk
+          
+          # Delete existing 'latest' tag if present and recreate it
+          gh release delete latest --yes || true
+          git tag -d latest 2>/dev/null || true
+          git push origin :refs/tags/latest 2>/dev/null || true
+
+          # Create tagged release for archiving
+          gh release create "$TAG" \
+            $DIR/*.apk \
+            smarttube_stable2.json \
+            --title "SmartTube Stable $TAG (Liquid Glass)" \
+            --notes "Automated release rebased on upstream $TAG with Liquid Glass theme."
+
+          # Create 'latest' release for in-app updater endpoint
+          gh release create "latest" \
+            smarttube_stable_armeabi-v7a.apk \
+            smarttube_stable_arm64-v8a.apk \
+            smarttube_stable_x86.apk \
+            smarttube_stable2.json \
+            --title "SmartTube Stable Latest (Liquid Glass)" \
+            --notes "Latest rolling build for in-app updates."
