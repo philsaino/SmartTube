@@ -32,11 +32,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          LATEST_TAG=$(gh release list -R yuliskov/SmartTube --limit 10 | awk '$0 ~ /Stable/ {print $3; exit}')
+          LATEST_TAG=$(gh release list -R yuliskov/SmartTube --limit 10 | awk -F'\t' '$1 ~ /Stable/ {print $3; exit}')
           echo "Latest upstream stable tag: $LATEST_TAG"
           
           # Check if this tag has already been released on this fork
-          if gh release view "$LATEST_TAG" >/dev/null 2>&1; then
+          if gh release view "$LATEST_TAG" -R ${{ github.repository }} >/dev/null 2>&1; then
             echo "Release $LATEST_TAG already exists on fork. Skipping build."
             echo "SHOULD_BUILD=false" >> $GITHUB_OUTPUT
           else
@@ -113,6 +113,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           TAG="${{ steps.check_upstream.outputs.TAG }}"
+          REPO="${{ github.repository }}"
           DIR="smarttubetv/build/outputs/apk/ststable/release"
           
           # Copy to generic names for direct update download
@@ -120,13 +121,14 @@ jobs:
           cp $DIR/SmartTube_stable_*_arm64-v8a.apk smarttube_stable_arm64-v8a.apk
           cp $DIR/SmartTube_stable_*_x86.apk smarttube_stable_x86.apk
           
-          # Delete existing 'latest' tag if present and recreate it
-          gh release delete latest --yes || true
+          # Delete existing 'latest' release on this fork if present
+          gh release delete latest -R "$REPO" --yes || true
           git tag -d latest 2>/dev/null || true
           git push origin :refs/tags/latest 2>/dev/null || true
 
           # Create tagged release for archiving
           gh release create "$TAG" \
+            -R "$REPO" \
             $DIR/*.apk \
             smarttube_stable2.json \
             --title "SmartTube Stable $TAG (Liquid Glass)" \
@@ -134,6 +136,7 @@ jobs:
 
           # Create 'latest' release for in-app updater endpoint
           gh release create "latest" \
+            -R "$REPO" \
             smarttube_stable_armeabi-v7a.apk \
             smarttube_stable_arm64-v8a.apk \
             smarttube_stable_x86.apk \
