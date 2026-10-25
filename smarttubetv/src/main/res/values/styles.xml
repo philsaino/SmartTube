@@ -305,7 +305,7 @@
         <item name="rowHeaderStyle">@style/Widget.Leanback.Row.Header.Glass</item>
         <item name="headersVerticalGridStyle">@style/Widget.Leanback.Headers.VerticalGridView.Glass</item>
         <item name="android:colorAccent" tools:targetApi="21">@color/glass_accent</item>
-        <item name="appLogo">@mipmap/app_logo</item>
+        <item name="appLogo">@mipmap/app_logo_semi_red</item>
         <item name="glassStyle">true</item>
     </style>
     <style name="App.Theme.Glass.Player" parent="App.Theme.Leanback.Player">
