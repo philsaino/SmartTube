@@ -1,6 +1,6 @@
 # SmartTube — Liquid Glass Edition
 
-> Fork personalizzato di [yuliskov/SmartTube](https://github.com/yuliskov/SmartTube) con il tema **Liquid Glass** (nero profondo, superfici in vetro satinato, contorni bianchi e accenti rosso YouTube). Include sincronizzazione automatica notturna con i rilasci ufficiali Upstream e supporto agli aggiornamenti in-app.
+> Custom fork of [yuliskov/SmartTube](https://github.com/yuliskov/SmartTube) featuring the **Liquid Glass** theme (deep pure black, frosted glass surfaces, clean white focus outlines, and official YouTube red accents). Includes automated nightly upstream sync and seamless in-app OTA updates.
 
 <p align="center">
   <img src="docs/screenshots/browse_home.png" width="48%" />
@@ -13,37 +13,37 @@
 
 ---
 
-## ⚡ Installazione Rapida (Fire TV / Android TV)
+## ⚡ Quick Installation (Fire TV / Android TV)
 
-### Metodo 1: Codice Downloader (AFTVnews)
-1. Installa e apri l'app **Downloader** sulla tua Fire TV / Android TV.
-2. Inserisci il codice numerico:
+### Method 1: Downloader App Code (AFTVnews)
+1. Install and launch the **Downloader** app on your Fire TV or Android TV device.
+2. In the URL / Search box, enter the numeric code:
    ```text
    3216703
    ```
-   *(oppure il link breve `aftv.news/3216703`)*
-3. Scarica e installa l'APK.
-4. Apri l'app → **Impostazioni** → **Interfaccia utente** → **Combinazione di colori** → seleziona **Liquid Glass**.
+   *(or open the short link `aftv.news/3216703`)*
+3. Download and install the APK.
+4. Launch the app → **Settings** → **User Interface** → **Color Scheme** → select **Liquid Glass**.
 
-> **Nota:** se sulla TV è presente la versione ufficiale di SmartTube Stable, **disinstallala prima** una sola volta per via delle diverse chiavi di firma crittografica. I futuri aggiornamenti si installeranno automaticamente sopra questa versione.
+> **Note:** If you currently have the official SmartTube Stable installed, **uninstall it first** (due to Android's cryptographic signature mismatch between different keys). All future updates from this fork will install seamlessly on top.
 
-### Metodo 2: Download Diretto
-Scarica l'ultimo APK per la tua architettura dai [GitHub Releases](https://github.com/philsaino/SmartTube/releases/tag/latest):
-- **ARMv7a (32-bit, la maggior parte delle Fire TV e Android TV):** `smarttube_stable_armeabi-v7a.apk`
+### Method 2: Direct APK Download
+Grab the latest release APK matching your device's architecture directly from [GitHub Releases](https://github.com/philsaino/SmartTube/releases/tag/latest):
+- **ARMv7a (32-bit — recommended for most Fire TV sticks and Android TVs):** `smarttube_stable_armeabi-v7a.apk`
 - **ARM64 (64-bit):** `smarttube_stable_arm64-v8a.apk`
 
 ---
 
-## ✨ Cosa cambia rispetto alla versione ufficiale
+## ✨ Features & What's New
 
-- **Tema Liquid Glass integrato:**
-  - **Sfondo**: gradiente grafite profondo/nero assoluto (`#0A0A0C` → `#000000`) con glow superiore.
-  - **Card e miniature**: lastre di vetro traslucide con bordo satinato bianco puro quando selezionate.
-  - **Barra laterale**: pannello a lastra satinata con pillola di selezione e bordo bianco lucido.
-  - **Player overlay**: dock di riproduzione arrotondato a sfumatura scura, pulsanti azione dedicati e barra di avanzamento rosso YouTube (`#E50914`).
-  - **Header**: logo SmartTube rosso ufficiale a contrasto.
-- **Aggiornamenti in-app personalizzati:** l'app dialoga con le Release di questo repository per ricevere notifiche e aggiornamenti trasparenti via OTA.
-- **Upstream Sync automatizzato:** una GitHub Action notturna controlla i rilasci di `yuliskov/SmartTube`, effettua il merge e compila la nuova release firmata.
+- **Liquid Glass Theme:**
+  - **Backdrop**: Smooth dark-graphite to true-black gradient (`#0A0A0C` → `#000000`) with an ambient accent glow.
+  - **Cards & Thumbnails**: Translucent glass slabs with a crisp specular white outline on focus.
+  - **Sidebar Dock**: Frosted glass vertical container with dedicated focus pill selector.
+  - **Player Overlay**: Rounded graphite transport dock, redesigned action buttons, and official YouTube red progress indicator (`#E50914`).
+  - **Header**: SmartTube official red badge logo aligned with the UI palette.
+- **Custom In-App OTA Updates:** Pre-configured update URLs pointing directly to this repository's releases for seamless one-click updates.
+- **Automated Upstream Sync:** GitHub Actions workflow checks nightly for new official `yuliskov/SmartTube` stable releases, merges changes, builds signed APKs, and publishes releases automatically.
 
 ---
 
