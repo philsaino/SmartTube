@@ -198,6 +198,7 @@ public class ViewUtil {
     /**
      * Clips the given view (and its children) to a rounded rectangle.
      */
+    @androidx.annotation.RequiresApi(21)
     public static void applyRoundedClip(View view, float radiusPx) {
         if (view == null || VERSION.SDK_INT < 21) {
             return;
