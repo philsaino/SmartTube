@@ -68,38 +68,4 @@
     <color name="lb_speech_orb_not_recording">@color/orb_color</color>
     <color name="lb_speech_orb_not_recording_pulsed">@color/orb_bright_color</color>
     <color name="lb_speech_orb_not_recording_icon">@color/orb_icon_color</color>
-
-    <!-- Liquid Glass theme tokens -->
-    <color name="glass_shelf_background">#050505</color>
-    <color name="glass_card_default_background">#1AFFFFFF</color>
-    <color name="glass_card_selected_background">#33FFFFFF</color>
-    <color name="glass_accent">#E50914</color>
-    <color name="glass_accent_dim">#1AE50914</color>
-    <color name="glass_dialog_background">#26FFFFFF</color>
-    <color name="glass_dialog_background_dark">#1A141010</color>
-    <color name="glass_rim_light">#52FFFFFF</color>
-
-    <!-- Liquid Glass: backdrop -->
-    <color name="glass_backdrop_top">#0A0A0C</color>
-    <color name="glass_backdrop_mid">#050507</color>
-    <color name="glass_backdrop_bottom">#000000</color>
-    <color name="glass_backdrop_glow">#14E50914</color>
-    <color name="glass_backdrop_glow_fade">#00E50914</color>
-    <color name="glass_sidebar">#4D080808</color>
-
-    <!-- Liquid Glass: card surface -->
-    <color name="glass_card_fill_top">#16FFFFFF</color>
-    <color name="glass_card_fill_bottom">#0AFFFFFF</color>
-    <color name="glass_card_rim_idle">#2EFFFFFF</color>
-    <color name="glass_card_rim_focus">#F2FFFFFF</color>
-    <color name="glass_card_rim_accent">#8CE50914</color>
-    <color name="glass_sheen_top">#2EFFFFFF</color>
-    <color name="glass_sheen_fade">#00FFFFFF</color>
-    <color name="glass_info_top">#0FFFFFFF</color>
-    <color name="glass_info_bottom">#04FFFFFF</color>
-    <color name="glass_text_primary">#F2FFFFFF</color>
-    <color name="glass_text_secondary">#A6FFFFFF</color>
-    <color name="glass_section_title">#D9FFFFFF</color>
-    <color name="glass_new_content_wash">#2EB31217</color>
-    <color name="glass_new_content_rim">#B3FF4D4F</color>
 </resources>

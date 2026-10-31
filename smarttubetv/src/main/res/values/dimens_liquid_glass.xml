@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Liquid Glass theme -->
+    <dimen name="glass_card_corner_radius">18dp</dimen>
+    <dimen name="glass_card_image_corner_radius">16dp</dimen>
+    <dimen name="glass_card_info_corner_radius">16dp</dimen>
+    <dimen name="glass_card_inset">2dp</dimen>
+    <dimen name="glass_card_info_padding_horizontal">12dp</dimen>
+    <dimen name="glass_card_info_padding_top">9dp</dimen>
+    <dimen name="glass_card_info_padding_bottom">11dp</dimen>
+    <dimen name="glass_card_title_text_size">15sp</dimen>
+    <dimen name="glass_card_content_text_size">12sp</dimen>
+    <dimen name="glass_backdrop_glow_radius">820dp</dimen>
+</resources>

@@ -1,10 +1,8 @@
 package com.liskovsoft.smartyoutubetv2.tv.util;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Outline;
 import android.os.Build.VERSION;
 import android.text.Layout;
 import android.text.TextUtils.TruncateAt;
@@ -180,40 +178,8 @@ public class ViewUtil {
                 .skipMemoryCache(true); // ensure start animation from beginning
     }
 
-    /**
-     * Whether the current theme asks presenters to render cards with the Liquid Glass style.
-     */
-    public static boolean isGlassStyle(Context context) {
-        if (context == null) {
-            return false;
-        }
-
-        TypedArray attrs = context.obtainStyledAttributes(new int[]{R.attr.glassStyle});
-        boolean glass = attrs.getBoolean(0, false);
-        attrs.recycle();
-
-        return glass;
-    }
-
-    /**
-     * Clips the given view (and its children) to a rounded rectangle.
-     */
-    @androidx.annotation.RequiresApi(21)
-    public static void applyRoundedClip(View view, float radiusPx) {
-        if (view == null || VERSION.SDK_INT < 21) {
-            return;
-        }
-
-        view.setClipToOutline(true);
-        view.setOutlineProvider(new ViewOutlineProvider() {
-            @Override
-            public void getOutline(View v, Outline outline) {
-                outline.setRoundRect(0, 0, v.getWidth(), v.getHeight(), radiusPx);
-            }
-        });
-    }
-
-    public static void enableTransparentDialog(Context context, View rootView) {        if (context == null || rootView == null || VERSION.SDK_INT <= 19) {
+    public static void enableTransparentDialog(Context context, View rootView) {
+        if (context == null || rootView == null || VERSION.SDK_INT <= 19) {
             return;
         }
 
@@ -243,45 +209,6 @@ public class ViewUtil {
         if (title instanceof FrameLayout) {
             title.setBackgroundColor(transparent);
             title.setVisibility(View.GONE);
-        }
-    }
-
-    /**
-     * Applies Liquid Glass style to side preference dialogs: translucent panel,
-     * integrated header, glass pill selectors.
-     */
-    public static void applyGlassDialogStyle(Context context, View rootView) {
-        if (context == null || rootView == null) {
-            return;
-        }
-
-        View mainContainer = rootView.findViewById(R.id.settings_preference_fragment_container);
-        if (mainContainer instanceof FrameLayout && VERSION.SDK_INT >= 21) {
-            mainContainer.setOutlineProvider(ViewOutlineProvider.BACKGROUND);
-        }
-
-        View mainFrame = rootView.findViewById(R.id.main_frame);
-        if (mainFrame != null) {
-            mainFrame.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_glass_dialog_panel));
-        }
-
-        View title = rootView.findViewById(R.id.decor_title_container);
-        if (title != null) {
-            // Transparent so it blends into the glass panel body
-            title.setBackgroundColor(ContextCompat.getColor(context, R.color.transparent));
-            if (VERSION.SDK_INT >= 21) {
-                title.setElevation(0f);
-            }
-        }
-
-        View itemsContainer = rootView.findViewById(R.id.list);
-        if (itemsContainer instanceof VerticalGridView) {
-            VerticalGridView grid = (VerticalGridView) itemsContainer;
-            int padH = (int) (12 * context.getResources().getDisplayMetrics().density);
-            grid.setPadding(padH, grid.getPaddingTop(), padH, grid.getPaddingBottom());
-            grid.setOnChildLaidOutListener(
-                    (parent, child, position, id) -> child.setBackgroundResource(R.drawable.bg_glass_dialog_item)
-            );
         }
     }
 

@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 import com.liskovsoft.smartyoutubetv2.tv.R;
 import com.liskovsoft.smartyoutubetv2.tv.ui.mod.leanback.preference.LeanbackListPreferenceDialogFragment;
-import com.liskovsoft.smartyoutubetv2.tv.util.ViewUtil;
+import com.liskovsoft.smartyoutubetv2.tv.util.LiquidGlassTheme;
 
 import java.util.Set;
 
@@ -39,8 +39,8 @@ public class StringListPreferenceDialogFragment extends LeanbackListPreferenceDi
 
         if (mIsTransparent && view != null) {
             ViewUtil.enableTransparentDialog(getActivity(), view);
-        } else if (view != null && ViewUtil.isGlassStyle(getActivity())) {
-            ViewUtil.applyGlassDialogStyle(getActivity(), view);
+        } else if (view != null && LiquidGlassTheme.isGlassStyle(getActivity())) {
+            LiquidGlassTheme.applyDialogStyle(getActivity(), view);
         }
 
         return view;

@@ -38,8 +38,7 @@ import androidx.leanback.widget.PlaybackSeekDataProvider;
 import androidx.leanback.widget.PlaybackSeekUi;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.RowPresenter;
-import androidx.core.content.ContextCompat;
-import com.liskovsoft.smartyoutubetv2.tv.util.ViewUtil;
+import com.liskovsoft.smartyoutubetv2.tv.util.LiquidGlassTheme;
 
 import com.liskovsoft.sharedutils.helpers.DateHelper;
 import com.liskovsoft.smartyoutubetv2.common.app.models.playback.ui.SeekBarSegment;
@@ -1061,12 +1060,8 @@ public class PlaybackTransportRowPresenter extends PlaybackRowPresenter {
         vh.mSecondaryControlsDock.addView(vh.mSecondaryControlsVh.view);
 
         PlaybackTransportRowView transportRow = (PlaybackTransportRowView) vh.view.findViewById(R.id.transport_row);
-        if (transportRow != null && ViewUtil.isGlassStyle(transportRow.getContext())) {
-            Context ctx = transportRow.getContext();
-            transportRow.setBackground(ContextCompat.getDrawable(ctx, com.liskovsoft.smartyoutubetv2.tv.R.drawable.bg_glass_player_dock));
-            int padH = (int) (18 * ctx.getResources().getDisplayMetrics().density);
-            int padV = (int) (10 * ctx.getResources().getDisplayMetrics().density);
-            transportRow.setPadding(padH, padV, padH, padV);
+        if (transportRow != null && LiquidGlassTheme.isGlassStyle(transportRow.getContext())) {
+            LiquidGlassTheme.setupPlayerTransportRow(transportRow);
         }
 
         transportRow.setOnUnhandledKeyListener(new PlaybackTransportRowView.OnUnhandledKeyListener() {

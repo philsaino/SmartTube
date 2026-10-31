@@ -78,7 +78,7 @@ import com.liskovsoft.smartyoutubetv2.tv.ui.common.UriBackgroundManager;
 import com.liskovsoft.smartyoutubetv2.tv.ui.mod.leanback.misc.ProgressBarManager;
 import com.liskovsoft.smartyoutubetv2.tv.ui.mod.leanback.playerglue.tweaks.PlaybackTransportRowPresenter;
 import com.liskovsoft.smartyoutubetv2.tv.ui.playback.mod.SeekModePlaybackFragment;
-import com.liskovsoft.smartyoutubetv2.tv.util.ViewUtil;
+import com.liskovsoft.smartyoutubetv2.tv.util.LiquidGlassTheme;
 import com.liskovsoft.smartyoutubetv2.tv.ui.playback.mod.surface.SurfacePlaybackFragmentGlueHost;
 import com.liskovsoft.smartyoutubetv2.tv.ui.playback.other.BackboneQueueNavigator;
 import com.liskovsoft.smartyoutubetv2.tv.ui.playback.other.VideoPlayerGlue;
@@ -189,7 +189,7 @@ public class PlaybackFragment extends SeekModePlaybackFragment implements Playba
      */
     private void updatePlayerBackground() {
         if (isOverlayShown()) {
-            if (getContext() != null && ViewUtil.isGlassStyle(getContext())) {
+            if (getContext() != null && LiquidGlassTheme.isGlassStyle(getContext())) {
                 setBackgroundResource(isSuggestionsShown() ? R.drawable.player_background_suggestions_glass : R.drawable.player_background_controls_glass);
             } else {
                 setBackgroundResource(isSuggestionsShown() ? R.drawable.player_background_suggestions : R.drawable.player_background_controls);

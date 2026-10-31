@@ -27,7 +27,7 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.PresenterSelector;
 import androidx.core.content.ContextCompat;
 import com.liskovsoft.smartyoutubetv2.tv.ui.playback.actions.PaddingAction;
-import com.liskovsoft.smartyoutubetv2.tv.util.ViewUtil;
+import com.liskovsoft.smartyoutubetv2.tv.util.LiquidGlassTheme;
 
 /**
  * Displays primary and secondary controls for a {@link PlaybackControlsRow}.
@@ -97,7 +97,7 @@ public class ControlButtonPresenterSelector extends PresenterSelector {
         public ViewHolder onCreateViewHolder(ViewGroup parent) {
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(mLayoutResourceId, parent, false);
-            if (ViewUtil.isGlassStyle(parent.getContext())) {
+            if (LiquidGlassTheme.isGlassStyle(parent.getContext())) {
                 View button = v.findViewById(R.id.button);
                 if (button instanceof ImageView) {
                     ((ImageView) button).setImageDrawable(

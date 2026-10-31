@@ -50,7 +50,7 @@ jobs:
       - name: Rebase onto Upstream Master
         if: steps.check_upstream.outputs.SHOULD_BUILD == 'true'
         run: |
-          git merge -X theirs upstream/master -m "chore(sync): merge upstream master for ${{ steps.check_upstream.outputs.TAG }}"
+          git merge upstream/master -m "chore(sync): merge upstream master for ${{ steps.check_upstream.outputs.TAG }}"
           git push origin feature/liquid-glass
 
       - name: Set up JDK 17
