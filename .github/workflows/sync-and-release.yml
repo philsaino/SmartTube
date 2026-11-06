@@ -53,6 +53,10 @@ jobs:
           git merge upstream/master -m "chore(sync): merge upstream master for ${{ steps.check_upstream.outputs.TAG }}"
           git push origin feature/liquid-glass
 
+      - name: Update Submodules
+        if: steps.check_upstream.outputs.SHOULD_BUILD == 'true'
+        run: git submodule update --init --recursive
+
       - name: Set up JDK 17
         if: steps.check_upstream.outputs.SHOULD_BUILD == 'true'
         uses: actions/setup-java@v4
