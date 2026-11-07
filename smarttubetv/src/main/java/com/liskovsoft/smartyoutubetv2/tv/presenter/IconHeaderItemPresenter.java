@@ -46,6 +46,7 @@ public class IconHeaderItemPresenter extends RowHeaderPresenter {
         mDefaultIcon = new ColorDrawable(ContextCompat.getColor(viewGroup.getContext(), R.color.lb_grey));
 
         View view = inflater.inflate(R.layout.icon_header_item, null);
+        Context context = viewGroup.getContext();
         if (LiquidGlassTheme.isGlassStyle(context)) {
             LiquidGlassTheme.setupSidebarHeader(context, view);
         } else {

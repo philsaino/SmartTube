@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 import com.liskovsoft.smartyoutubetv2.tv.ui.mod.leanback.preference.LeanbackListPreferenceDialogFragment;
 import com.liskovsoft.smartyoutubetv2.tv.util.LiquidGlassTheme;
+import com.liskovsoft.smartyoutubetv2.tv.util.ViewUtil;
 
 public class RadioListPreferenceDialogFragment extends LeanbackListPreferenceDialogFragment {
     private boolean mIsTransparent;
