@@ -378,7 +378,7 @@
     <string name="proxy_test_aborted">Pārbaude pārtraukta, lūdzu, vispirms labojiet starpniekservera iestatījumus.</string>
     <string name="proxy_application_aborted">Lūdzu, vispirms labojiet starpniekservera iestatījumus.</string>
     <string name="proxy_test_start">Pārbaude #%d: %s …</string>
-    <string name="proxy_test_error">Kļūda #%d: %s</string>
+    <string name="proxy_test_error">Kļūda #%1$d: %2$s</string>
     <string name="proxy_test_status">Statuss #%d: %s %d %s</string>
     <string name="openvpn_config_address_hint">Konfigurācijas faila adrese (*.ovpn)</string>
     <string name="enable_openvpn">Izmantot OpenVPN</string>

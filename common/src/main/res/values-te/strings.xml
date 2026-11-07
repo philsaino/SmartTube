@@ -382,7 +382,7 @@
     <string name="proxy_test_aborted">పరీక్ష ఆపివేయబడింది, దయచేసి ముందుగా ప్రాక్సీ సెట్టింగ్‌లను సరిచేయండి.</string>
     <string name="proxy_application_aborted">దయచేసి ముందుగా ప్రాక్సీ సెట్టింగ్‌లను సరిచేయండి.</string>
     <string name="proxy_test_start">పరీక్ష #%d: %s …</string>
-    <string name="proxy_test_error">లోపం #%d: %s</string>
+    <string name="proxy_test_error">లోపం #%1$d: %2$s</string>
     <string name="proxy_test_status">స్థితి #%d: %s %d %s</string>
     <string name="openvpn_config_address_hint">కాన్ఫిగ్ ఫైల్ చిరునామా (*.ovpn)</string>
     <string name="enable_openvpn">OpenVPN ఉపయోగించండి</string>

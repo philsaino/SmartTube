@@ -379,7 +379,7 @@
     <string name="proxy_test_aborted">ยกเลิกการทดสอบ โปรดแก้ไขการตั้งค่าพร็อกซีก่อน</string>
     <string name="proxy_application_aborted">โปรดแก้ไขการตั้งค่าพร็อกซีก่อน</string>
     <string name="proxy_test_start">การทดสอบ #%d: %s …</string>
-    <string name="proxy_test_error">ข้อผิดพลาด #%d: %s</string>
+    <string name="proxy_test_error">ข้อผิดพลาด #%1$d: %2$s</string>
     <string name="proxy_test_status">สถานะ #%d: %s %d %s</string>
     <string name="openvpn_config_address_hint">ที่อยู่ไฟล์การกำหนดค่า (*.ovpn)</string>
     <string name="enable_openvpn">ใช้ OpenVPN</string>

@@ -693,7 +693,7 @@
     <string name="action_pip">PIP</string>
     <string name="proxy_test_btn">Pengujian</string>
     <string name="proxy_test_start">Pengujian #%d: %s …</string>
-    <string name="proxy_test_error">Eror #%d: %s</string>
+    <string name="proxy_test_error">Eror #%1$d: %2$s</string>
     <string name="proxy_test_status">Status #%d: %s %d %s</string>
     <string name="player_volume">Volume</string>
     <string name="remove_playlist_fmt">Hapus permanen %s\?</string>

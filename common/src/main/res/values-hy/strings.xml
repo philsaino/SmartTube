@@ -378,7 +378,7 @@
     <string name="proxy_test_aborted">Ստուգումը ընդհատվեց, նախ ուղղեք պրոքսիի կարգավորումները։</string>
     <string name="proxy_application_aborted">Նախ ուղղեք պրոքսիի կարգավորումները։</string>
     <string name="proxy_test_start">Ստուգում #%d. %s …</string>
-    <string name="proxy_test_error">Սխալ #%d. %s</string>
+    <string name="proxy_test_error">Սխալ #%1$d. %2$s</string>
     <string name="proxy_test_status">Կարգավիճակ #%d. %s %d %s</string>
     <string name="openvpn_config_address_hint">Կազմաձևի ֆայլի հասցե (*.ovpn)</string>
     <string name="enable_openvpn">Օգտագործել OpenVPN</string>
