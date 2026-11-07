@@ -17,7 +17,7 @@ import androidx.leanback.widget.BaseCardView;
 import androidx.leanback.widget.RowHeaderPresenter;
 import androidx.leanback.widget.VerticalGridView;
 import com.liskovsoft.smartyoutubetv2.tv.R;
-import com.liskovsoft.smartyoutubetv2.tv.ui.widgets.complexiconcardview.ComplexImageCardView;
+import com.liskovsoft.smartyoutubetv2.tv.ui.widgets.complexcardview.ComplexImageCardView;
 
 /**
  * Isolated theme logic for the Liquid Glass UI.
